@@ -1,0 +1,4 @@
+name: ServerMonitor
+version: 1.0
+main: com.example.servermonitor.ServerMonitorPlugin
+api-version: 1.20
