@@ -1,4 +1,4 @@
-name: Java CI with Release
+name: Java CI with Maven
 
 on:
   push:
@@ -18,21 +18,11 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Compile Java code
-      run: |
-        mkdir out
-        find src/main/java -name "*.java" > sources.txt
-        javac -d out @sources.txt
+    - name: Build with Maven
+      run: mvn clean package
 
-    - name: Package JAR
-      run: |
-        jar cfm enderguard.jar src/main/resources/plugin.yml -C out .
-        mkdir build
-        mv enderguard.jar build/
-
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1
+    - name: Upload jar
+      uses: actions/upload-artifact@v3
       with:
-        files: build/enderguard.jar
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: enderguard
+        path: target/*.jar
